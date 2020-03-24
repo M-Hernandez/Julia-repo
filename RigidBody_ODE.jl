@@ -1,6 +1,6 @@
 using RigidBodyDynamics, RigidBodySim
 
-mechanism = parse_urdf(Float64, "Acrobot.urdf")
+#mechanism = parse_urdf(Float64, "Acrobot.urdf")
 
 function lazycontroller!(τ::AbstractVector, t::Number,
                          state::MechanismState)
