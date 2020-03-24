@@ -2,9 +2,9 @@
 
 Packages used
 
-// Pkg.add() //\t
-using RigidBodyDynamics\t
-using LinearAlgebra\t
-using StaticArrays\t
-using Plots\t
+// Pkg.add() //
+using RigidBodyDynamics
+using LinearAlgebra
+using StaticArrays
+using Plots
 using MeshCatMechanisms
