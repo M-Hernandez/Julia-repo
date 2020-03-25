@@ -14,6 +14,9 @@ shoulder, elbow = joints(mechanism)
 
 #sets velocity vector of shoulder
 set_velocity!(state, shoulder, 1.5)
+set_velocity!(state, elbow, -.7)
+
+
 
 
 
