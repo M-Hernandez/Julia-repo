@@ -1,68 +1,72 @@
+# # @__NAME__
+
+# PREAMBLE
+
+# PKG_SETUP
+
+# Please note that [RigidBodySim.jl](https://github.com/JuliaRobotics/RigidBodySim.jl) now provides a more capable simulation environment.
+
+# ## Setup
+
 using RigidBodyDynamics
-using LinearAlgebra
-using StaticArrays
-using Plots
+
+# ## Model definition
+
+# We'll just use the double pendulum model, loaded from a URDF:
+
+srcdir = dirname(pathof(RigidBodyDynamics))
+urdf = joinpath(srcdir, "..", "test", "urdf", "Acrobot.urdf")
+mechanism = parse_urdf(urdf)
+
+# ## Controller
+
+# Let's write a simple controller that just applies $10 \sin(t)$ at the elbow joint and adds some damping at the shoulder joint:
+
+shoulder, elbow = joints(mechanism)
+function simple_control!(torques::AbstractVector, t, state::MechanismState)
+    torques[velocity_range(state, shoulder)] .= -1 .* velocity(state, shoulder)
+    torques[velocity_range(state, elbow)] .= 10 * sin(t)
+end;
+
+
+# ## Simulation
+
+# Basic simulation can be done using the `simulate` function. We'll first create a `MechanismState` object, and set the initial joint configurations and velocities:
+
+state = MechanismState(mechanism)
+zero_velocity!(state)
+set_configuration!(state, shoulder, 0.7)
+set_configuration!(state, elbow, -0.8);
+
+
+# Now we can simply call `simulate`, which will return a tuple consisting of:
+# * simulation times (a `Vector` of numbers)
+# * joint configuration vectors (a `Vector` of `Vector`s)
+# * joint velocity vectors (a `Vector` of `Vector`s)
+
+final_time = 10.
+ts, qs, vs = simulate(state, final_time, simple_control!; Δt = 1e-3);
+
+
+# For access to lower-level functionality, such as different ways of storing or visualizing the data generated during the simulation, it is advised to simply pattern match the basic `simulate` function.
+
+# ## Visualization
+
+# For visualization, we'll use [`MeshCatMechanisms`](https://github.com/JuliaRobotics/MeshCatMechanisms.jl), an external package based on RigidBodyDynamics.jl.
+
 using MeshCatMechanisms
 
-g = -9.81
+# Create a `MechanismVisualizer` and open it in a new browser tab
+# (see [`MeshCat.jl`](https://github.com/rdeits/MeshCat.jl) for other options):
 
-world = RigidBody{Float64}("world")
+mvis = MechanismVisualizer(mechanism, URDFVisuals(urdf));
 
-doublependulum = Mechanism(world; gravity = SVector(0,0,g))
+#-
 
-axis = SVector(0.,1.,0.)
-
-I_1 = .333
-c_1 = -.5
-m_1 = 1.
-
-frame1 = CartesianFrame3D("upper_link")
-inertia1 = SpatialInertia(frame1, moment=I_1 * axis * axis',com=SVector(0,0,c_1),mass=m_1)
-
-upperlink = RigidBody(inertia1)
-shoulder = Joint("shoulder", Revolute(axis))
-
-before_shoulder_to_world = one(Transform3D, frame_before(shoulder), default_frame(world))
-
-attach!(doublependulum, world, upperlink, shoulder, joint_pose = before_shoulder_to_world)
-
-l_1 = -1.
-I_2 = .333
-c_2 = -.5
-m_2 = 1.
-
-inertia2 = SpatialInertia(CartesianFrame3D("lower_link"), moment = I_2 * axis * axis',com=SVector(0,0,c_2), mass=m_2)
-lowerlink = RigidBody(inertia2)
-
-elbow = Joint("elbow", Revolute(axis))
-before_elbow_to_after_shoulder = Transform3D(frame_before(elbow), frame_after(shoulder), SVector(0, 0, l_1))
-
-attach!(doublependulum, upperlink, lowerlink, elbow,joint_pose = before_elbow_to_after_shoulder)
+#nb ##NBSKIP
+#nb open(mvis)
+#md ## open(mvis)
 
 
-state = MechanismState(doublependulum)
-
-
-set_configuration!(state, shoulder, 0.3)
-set_configuration!(state, elbow, 0.4)
-set_velocity!(state, shoulder, 1.)
-set_velocity!(state, elbow, 2.);
-
-setdirty!(state)
-
-q = configuration(state)
-v = velocity(state)
-
-transform(state, Point3D(frame_after(elbow), zero(SVector{3})),default_frame(world))
-
-mass_matrix(state)
-
-ts,qs,vs = simulate(state, 5.);
-
-
-# for i = 1:length(ts)
-#     println(ts[i], "\t", qs[i], "\t" ,vs[i])
-# end
-# @gif for i=1:length(ts)
-#     plot(ts[i])
-# end
+# And animate:
+MeshCatMechanisms.animate(mvis, ts, qs; realtimerate = 1.);

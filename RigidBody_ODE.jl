@@ -1,20 +1,22 @@
-using RigidBodyDynamics, RigidBodySim
-
-#mechanism = parse_urdf(Float64, "Acrobot.urdf")
-
-function lazycontroller!(τ::AbstractVector, t::Number,
-                         state::MechanismState)
-    τ .= 0
-end
-
-dynamics = Dynamics(mechanism, lazycontroller!)
-
-# create a 5-second simulation
-state = MechanismState(mechanism)
-problem = ODEProblem(dynamics, state, (0., 5.))
-solution = solve(problem, RK4()) # Solve using RK-4 integration
-
-# Animate the result
+using RigidBodyDynamics
+using RigidBodySim
 using MeshCatMechanisms
-vis = MechanismVisualizer(mechanism)
-setanimation!(vis, solution)
+using MeshCat
+
+
+mechanism = parse_urdf("test.urdf")
+
+state = MechanismState(mechanism)
+
+shoulder, elbow = joints(mechanism)
+
+set_velocity!(state, shoulder, 1.5)
+
+
+total_time = 10
+ts, qs, vs = simulate(state, total_time, Δt = 1e-3);
+
+
+mvis = MechanismVisualizer(mechanism,URDFVisuals("test.urdf"))
+open(mvis)
+MeshCatMechanisms.animate(mvis, ts, qs; realtimerate = 1.);
