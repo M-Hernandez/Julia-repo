@@ -1,0 +1,16 @@
+Meeting 03/25/2020
+
+To do:
+  - create test data (x,y,z) coordinates to pass into simulation
+  - Follow simpler path create points of body to simulate using spheres
+  - Start by doing right arm
+     ~ Shoulder
+     ~ Elbow
+     ~ Hand
+
+ Data Extraction from tsv file
+ - ?????
+
+
+ Right arm
+  - given a coordinate (x,y,z)

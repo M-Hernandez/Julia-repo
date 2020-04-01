@@ -16,12 +16,7 @@ shoulder, elbow = joints(mechanism)
 set_velocity!(state, shoulder, 1.5)
 set_velocity!(state, elbow, -.7)
 
-
-
-
-
-
-total_time = 10
+total_time = 0
 #simulate the model
 #return vector of times, vectors of configuration, vectors of velocity
 ts, qs, vs = simulate(state, total_time, Δt = 1e-3);
