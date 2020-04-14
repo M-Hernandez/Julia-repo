@@ -6,27 +6,26 @@ using StaticArrays
 include("CSVtoCoordinates.jl")
 using .CSVtoVector
 
-include
 
-HeadCoordinates = CSVtoVector.getCoordinates("HeadCoordinates.csv")
-ChestCoordinates = CSVtoVector.getCoordinates("ChestCoordinates.csv")
+HeadCoordinates = CSVtoVector.getCoordinates("data/HeadCoordinates.csv")
+ChestCoordinates = CSVtoVector.getCoordinates("data/ChestCoordinates.csv")
 
-RightShoulderCoordinates = CSVtoVector.getCoordinates("RightShoulderCoordinates.csv")
-RightElbowCoordinates = CSVtoVector.getCoordinates("RightElbowCoordiates.csv")
-RightWristCoordinates = CSVtoVector.getCoordinates("RightWristCoordinates.csv")
+RightShoulderCoordinates = CSVtoVector.getCoordinates("data/RightShoulderCoordinates.csv")
+RightElbowCoordinates = CSVtoVector.getCoordinates("data/RightElbowCoordiates.csv")
+RightWristCoordinates = CSVtoVector.getCoordinates("data/RightWristCoordinates.csv")
 
-LeftShoulderCoordinates = CSVtoVector.getCoordinates("LeftShoulderCoordinates.csv")
-LeftElbowCoordinates = CSVtoVector.getCoordinates("LeftElbowCoordiates.csv")
-LeftWristCoordinates = CSVtoVector.getCoordinates("LeftWristCoordinates.csv")
+LeftShoulderCoordinates = CSVtoVector.getCoordinates("data/LeftShoulderCoordinates.csv")
+LeftElbowCoordinates = CSVtoVector.getCoordinates("data/LeftElbowCoordiates.csv")
+LeftWristCoordinates = CSVtoVector.getCoordinates("data/LeftWristCoordinates.csv")
 
-LeftWaistCoordinates = CSVtoVector.getCoordinates("LeftWaist.csv")
-RightWaistCoordinates = CSVtoVector.getCoordinates("RightWaist.csv")
+LeftWaistCoordinates = CSVtoVector.getCoordinates("data/LeftWaist.csv")
+RightWaistCoordinates = CSVtoVector.getCoordinates("data/RightWaist.csv")
 
-LeftKneeCoordinates = CSVtoVector.getCoordinates("LeftKnee.csv")
-RightKneeCoordinates = CSVtoVector.getCoordinates("RightKnee.csv")
+LeftKneeCoordinates = CSVtoVector.getCoordinates("data/LeftKnee.csv")
+RightKneeCoordinates = CSVtoVector.getCoordinates("data/RightKnee.csv")
 
-LeftAnkleCoordinates = CSVtoVector.getCoordinates("LeftAnkleCoordinates.csv")
-RightAnkleCoordinates = CSVtoVector.getCoordinates("RightAnkleCoordinates.csv")
+LeftAnkleCoordinates = CSVtoVector.getCoordinates("data/LeftAnkleCoordinates.csv")
+RightAnkleCoordinates = CSVtoVector.getCoordinates("data/RightAnkleCoordinates.csv")
 
 
 vis = Visualizer()
