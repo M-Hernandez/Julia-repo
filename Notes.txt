@@ -1,4 +1,8 @@
-Meeting 03/25/2020
+Meeting 04/08/2020
+- Upload running 12 point simulation to github in own folder
+- comment code
+- add more points to simulation
+- add feet and send new video to dr.valles
 
 To do:
   - create test data (x,y,z) coordinates to pass into simulation
@@ -9,8 +13,7 @@ To do:
      ~ Hand
 
  Data Extraction from tsv file
- - ?????
+ -
 
-
- Right arm
-  - given a coordinate (x,y,z)
+ Converting .png to .mp4 using ffmpeg
+ ffmpeg -r 30 -i %07d.png -vcodec libx264 -pix_fmt yuv420p -preset slow -crf 25 output.mp4
