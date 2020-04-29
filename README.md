@@ -1,5 +1,5 @@
 # Julia-repo
-
+update
 Julia repo focuses on the simulation of coordinate points given a .tsv file from Qualisys.
 41 points are currently visualized using MeshCat animations.
 
