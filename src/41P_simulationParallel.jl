@@ -3,7 +3,6 @@ using GeometryTypes
 using CoordinateTransformations
 using StaticArrays
 using Distributed
-using Blink
 
 include("GetCoordinatesfromTSV.jl")
 using .GetCoordinates
@@ -17,7 +16,7 @@ EighthFramesLength = 22646
 oneMinFramesLength = 6000
 
 #Number of frames used to run simulation
-NumofFrames = HalfFramesLength
+NumofFrames = oneMinFramesLength
 
 
 #Setting each marker of the body with array of coordinates
@@ -84,9 +83,8 @@ pointRadius = .025
 
 #opening visualizer in a windo (Note: Opens visualizer before simulation is calculated)
 
-#open(vis)
+open(vis)
 
-open(vis, Window())
 
 #The following "setobject!" creates the sphere objects for use in viusalizer
 setobject!(vis[:Head][:Head], Sphere(Point(0.0,0.0,0.0),pointRadius))
